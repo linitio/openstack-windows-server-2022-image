@@ -550,7 +550,7 @@ function Download-CloudbaseInit {
         $msiBuildSuffix = "_Stable"
     }
     $CloudbaseInitMsi = "CloudbaseInitSetup{0}_{1}.msi" -f @($msiBuildSuffix, $msiBuildArchMap[$osArch])
-    $CloudbaseInitMsiUrl = "http://localhost/$CloudbaseInitMsi"
+    $CloudbaseInitMsiUrl = "https://www.cloudbase.it/downloads/$CloudbaseInitMsi"
 
     Execute-Retry {
         (New-Object System.Net.WebClient).DownloadFile($CloudbaseInitMsiUrl, $CloudbaseInitMsiPath)
