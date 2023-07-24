@@ -569,9 +569,9 @@ function Download-QemuGuestAgent {
 
     $QemuGuestAgentUrl = $QemuGuestAgentConfig
     if ($QemuGuestAgentConfig -eq 'True') {
-        $arch = "x86"
+        $arch = "i386"
         if ($OsArch -eq "AMD64") {
-            $arch = "x64"
+            $arch = "x86_64"
         }
         $QemuGuestAgentUrl = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads" + `
                              "/latest-qemu-ga/qemu-ga-{0}.msi" -f $arch
