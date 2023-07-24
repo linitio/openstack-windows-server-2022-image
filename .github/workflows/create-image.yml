@@ -3,14 +3,15 @@
 name: Build_Image
 
 env:
-  VERSION: ${{ github.ref_name }}
+  VERSION: 22H1
+  BUILD: 20230724
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-  #  tags:
-  #  - '*'
+    branches:
+      - win-2k22-datacenter-bios
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -31,7 +32,8 @@ jobs:
       - name: Building image
         run: |
          ./build_windows_image.ps1 cloud 2k22 datacenter
-         echo "Build for Windows Server 2022 Datacenter Cloud image complete" 
+         echo "Build for Windows Server 2022 Datacenter Cloud image complete"
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -39,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          name: Windows Server 2022 Datacenter ${{ env.VERSION }}
+          name: Windows Server 2022 Datacenter ${{ env.VERSION }} ${{ env.VERSION }}
           draft: false
           prerelease: false
 
@@ -50,16 +52,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: cloud-rescue-${{ env.VERSION }}-x86_64.qcow2
-          asset_name: cloud-rescue-${{ env.VERSION }}-x86_64.qcow2
+          asset_path: D:\files-output\2k22\win-2k22-datacenter-bios.qcow2
+          asset_name: win-2k22-datacenter-bios.qcow2
           asset_content_type: application/octet-stream
-
-      - name: Add md5.txt file
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: md5.txt
-          asset_name: md5.txt
-          asset_content_type: text/plain
