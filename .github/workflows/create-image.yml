@@ -4,8 +4,6 @@ name: Build_Image
 
 env:
   VERSION: ${{ github.ref_name }}
-  OS_URL: https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
-  BASE_OS_IMAGE: base-os.img
 
 # Controls when the workflow will run
 on:
@@ -30,36 +28,10 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Install prerequies
+      - name: Building image
         run: |
-          sudo apt-get update
-          sudo apt install libguestfs-tools wget linux-image-generic -y
-      # Runs a set of commands using the runners shell
-      - name: Download base image from Ubuntu Servers
-        run: |
-         sudo wget "$OS_URL" -O $BASE_OS_IMAGE
-      - name: Making some changes on base image
-        run: |
-         sudo qemu-img resize $BASE_OS_IMAGE +8G
-         sudo cp $BASE_OS_IMAGE $BASE_OS_IMAGE.bak
-         sudo virt-resize -expand /dev/sda1 $BASE_OS_IMAGE.bak $BASE_OS_IMAGE
-         sudo virt-customize -a $BASE_OS_IMAGE --run-command 'grub-install /dev/sda'
-         sudo virt-customize -a $BASE_OS_IMAGE --run-command 'apt update && apt full-upgrade -y && apt install curl dnsutils htop iperf jq less lsof man-db ncdu net-tools nmap rsync telnet wget whois iotop mdadm figlet lsb-release python3-utmp bc -y'
-         sudo virt-customize -a $BASE_OS_IMAGE --run-command 'apt purge snapd motd-news-config -y && apt autopurge -y'
-         sudo virt-copy-in -a $BASE_OS_IMAGE config/cloud.cfg /etc/cloud/
-         sudo virt-copy-in -a $BASE_OS_IMAGE config/sshd-banner /etc/ssh/
-         sudo virt-copy-in -a $BASE_OS_IMAGE config/issue /etc/
-         sudo virt-copy-in -a $BASE_OS_IMAGE bin/dynamic-motd/update-motd.d /etc/
-         sudo virt-copy-in -a $BASE_OS_IMAGE config/10-openstack-cloud-rescue /etc/update-motd.d/
-         sudo virt-copy-in -a $BASE_OS_IMAGE config/cc_set_passwords.py /usr/lib/python3/dist-packages/cloudinit/config/
-         sudo virt-customize -a $BASE_OS_IMAGE --run-command 'chmod -x /etc/update-motd.d/* && chmod +x /etc/update-motd.d/00-figlet /etc/update-motd.d/10-openstack-cloud-rescue && touch /etc/update-motd.d/hushlogin'
-         sudo virt-customize -a $BASE_OS_IMAGE --run-command 'echo "Banner /etc/ssh/sshd-banner" >> /etc/ssh/sshd_config'
-      - name: Sysprep & Sparsify image
-        run: |
-         sudo virt-sysprep -a $BASE_OS_IMAGE
-         sudo virt-sparsify --convert qcow2 --compress $BASE_OS_IMAGE cloud-rescue-${{ env.VERSION }}-x86_64.qcow2
-         sudo md5sum cloud-rescue-${{ env.VERSION }}-x86_64.qcow2 > md5.txt
-         ls -al
+         ./build_windows_image.ps1 cloud 2k22 datacenter
+         echo "Build for Windows Server 2022 Datacenter Cloud image complete" 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -67,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          name: OpenStack Cloud Rescue ${{ env.VERSION }}
+          name: Windows Server 2022 Datacenter ${{ env.VERSION }}
           draft: false
           prerelease: false
 
