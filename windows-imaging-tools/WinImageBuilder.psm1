@@ -574,7 +574,7 @@ function Download-QemuGuestAgent {
             $arch = "x64"
         }
         $QemuGuestAgentUrl = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads" + `
-                             "/latest/qemu-ga-{0}.msi" -f $arch
+                             "/latest-qemu-ga/qemu-ga-{0}.msi" -f $arch
     }
 
     Write-Log "Downloading QEMU guest agent installer from ${QemuGuestAgentUrl} ..."
