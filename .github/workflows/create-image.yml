@@ -40,8 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          name: Windows Server 2022 Datacenter ${{ env.VERSION }} ${{ env.VERSION }}
+          tag_name: ${{ env.BUILD }}
+          name: Windows Server 2022 Datacenter ${{ env.VERSION }} ${{ env.BUILD }}
           draft: false
           prerelease: false
 
