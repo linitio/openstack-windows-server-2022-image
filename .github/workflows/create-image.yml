@@ -19,7 +19,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches:
-      - win-2k22-datacenter-bios
+      - win-2k22-datacenter-uefi
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -44,4 +44,4 @@ jobs:
 
       - name: Uploading image in object storage
         run: |
-         swift.exe upload cloud-images D:\files-output\2k22\win-2k22-datacenter-bios.qcow2 --object-name win2k22/${{ env.BUILD }}/win-2k22-datacenter-bios.qcow2 --segment-size 5368709120 --use-slo
+         swift.exe upload cloud-images D:\files-output\2k22\win-2k22-datacenter-uefi.qcow2 --object-name win2k22/${{ env.BUILD }}/win-2k22-datacenter-uefi.qcow2 --segment-size 5368709120 --use-slo
