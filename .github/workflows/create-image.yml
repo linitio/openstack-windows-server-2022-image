@@ -45,25 +45,3 @@ jobs:
       - name: Uploading image in object storage
         run: |
          swift.exe upload cloud-images D:\files-output\2k22\win-2k22-datacenter-bios.qcow2 --object-name win2k22/${{ env.BUILD }}/win-2k22-datacenter-bios.qcow2 --segment-size 5368709120 --use-slo
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.BUILD }}
-          name: Windows Server 2022 Datacenter ${{ env.VERSION }} ${{ env.BUILD }}
-          draft: false
-          prerelease: false
-
-      - name: Upload image to release asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: D:\files-output\2k22\win-2k22-datacenter-bios.qcow2
-          asset_name: win-2k22-datacenter-bios.qcow2
-          asset_content_type: application/octet-stream
