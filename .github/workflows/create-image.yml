@@ -41,7 +41,7 @@ jobs:
         run: |
          ./build_windows_image.ps1 cloud 2k22 datacenter
          echo "Build for Windows Server 2022 Datacenter Cloud image complete"
-         swift.exe upload cloud-images D:\files-output\2k22\win-2k22-datacenter-bios.qcow2
+         swift.exe upload cloud-images D:\files-output\2k22\win-2k22-datacenter-bios.qcow2 --object-name win2k22/${{ env.BUILD }}/win-2k22-datacenter-bios.qcow2
 
       - name: Create Release
         id: create_release
