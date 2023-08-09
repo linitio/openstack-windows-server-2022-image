@@ -5,6 +5,7 @@ name: Build_Image
 env:
   VERSION: 22H1
   BUILD: 20230724
+  OS_AUTH_URL: ${{ vars.OS_AUTH_URL }}
 
 # Controls when the workflow will run
 on:
