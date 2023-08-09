@@ -6,6 +6,13 @@ env:
   VERSION: 22H1
   BUILD: 20230724
   OS_AUTH_URL: ${{ vars.OS_AUTH_URL }}
+  ST_AUTH_VERSION: ${{ vars.ST_AUTH_VERSION }}
+  OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+  OS_PROJECT_DOMAIN_NAME: ${{ secrets.OS_PROJECT_DOMAIN_NAME }}
+  OS_PROJECT_NAME: ${{ secrets.OS_PROJECT_NAME }}
+  OS_USERNAME: ${{ secrets.OS_USERNAME }}
+  OS_USER_DOMAIN_NAME: ${{ secrets.OS_USER_DOMAIN_NAME }}
+
 
 # Controls when the workflow will run
 on:
